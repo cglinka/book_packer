@@ -10,11 +10,11 @@ class Scraper
   def initialize(folder)
     @collection = Array.new
     @folder = folder
-    @book
   end
 
-  # Run the methods that pull the information out of the HTML document.
-  #
+  # Iterates over each file in a folder, scrapes information from each file.
+  # Logs a response after it has scrapped each file.
+  # Logs number of files scraped.
   def scrape
     counter = 0
     Dir.glob(@folder) do |file|

@@ -1,8 +1,12 @@
 require 'json'
 
+# Class for packing an array of items into boxes for shippment.
 class Shippment
   attr_reader :shippment
 
+  # Master method that calls the packing methods.
+  #
+  # items - an Array of Hashes that contain book information, including weight.
   def create_shippment(items)
     fill_boxes(items)
     shippment_object
@@ -11,11 +15,13 @@ class Shippment
 
   private
 
+  # Checks to see if the book fits in a box.
   def does_it_fit?(book, box)
     max_weight = 10
     book + box <= max_weight
   end
 
+  # Fills up the boxes.
   def fill_boxes(items)
     # Sort the items by weight, hightest weight first.
     items.sort_by! { |item| item["weight"]}
@@ -53,6 +59,7 @@ class Shippment
     end
   end
 
+  # Creates shippment.
   def shippment_object
     @shippment = []
     i = 0
@@ -70,7 +77,8 @@ class Shippment
     return @shippment
   end
 
+  # Converts @shippment to JSON
   def make_json_object
-    @shippment.to_json
+    @shippment = @shippment.to_json
   end
 end
