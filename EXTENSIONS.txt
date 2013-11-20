@@ -1,0 +1,39 @@
+1. Domains beyond Amazon.com
+
+My scraper can open any HTML file. Since other domains would likely have 
+different page structure, I would need to restructure my scraper to start with 
+a check for the domain, which would then pass the page off to a subclass 
+that contained the correct scraping methods for that domain.
+
+2. Products beyond just simply books.
+
+Most Amazon pages appear to have a similar structure, but I might want to 
+retrieve different information for different product types, so I would likely 
+want to restructure my scraper. Again, I would want an initial method that 
+determines the product type, probably based on the <meta> tags or the page 
+title. Then, I would want to pass the page to a subclass that would retrieve 
+the correct information. Because I could likely re-use many of my book-scraping 
+methods, it would DRYest to set up a module with the reusable scraping methods 
+that could be mixed in with the different product type subclasses.
+
+3. Parse and ship 2,000,000 books (in a reasonably time frame; 
+e.g., polynomial time) instead of merely 20.
+
+Currently, retrieving the information from the pages is the step that takes the 
+most time. I would first look into ways to make my scraping methods faster. 
+This might require using a different scraping tool, optimizing the way I 
+tell the scraper to look for information, or breaking the page into smaller 
+sections so there is less information for Nokogiri to search.
+
+Next, I would optimize the sorting and packing steps. Currently I sort the 
+array of book hashes by weight, and then reverse it to pack the heaviest books 
+first. If I used a faster sorting algorithm that operates in polynomial time 
+that put the heaviest item first by default, I would save time there.
+
+Anther place to optimize would be the way I place the books in boxes. 
+Currently, I iterate over the entire array of boxes for each book. To make this 
+part faster, I could optimize the order in which the books are packed such that 
+I did not need to check every box for each book.
+
+Lastly, I could divide the books into sets and have them scraped in parallel to 
+decrease processing time.
